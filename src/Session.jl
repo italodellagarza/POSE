@@ -1,21 +1,19 @@
 """
 # struct Session
 
-- Julia version: 1.1.0
-- Author: italo
-- Date: 2019-06-01
-
 Estrutura para armazenar os dados de cada sessão
 
-
 """
+function constructorSession(id, capacity, presentationTime, day, month, year, hour, minute)
+    schedule =  string(year, "-",  month, "-",  day, " ",  hour, ":",  minute)
+    date =  string(year, "-",  month, "-",  day)
+    return Session(id, capacity, presentationTime, schedule, date)
+end
+
 struct Session
     id::Int
     capacity::Int
     presentationTime::Int
-    day::Int
-    month::Int
-    year::Int
-    hour::Int
-    minute::Int
+    schedule::String
+    date::String
 end

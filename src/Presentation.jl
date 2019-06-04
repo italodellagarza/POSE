@@ -1,14 +1,10 @@
 """
-# struct Work
-
-- Julia version: 1.1.0
-- Author: Ítalo Della Garza Silva
-- Date: 2019-06-01
+# struct Presentation
 
 Estrutura para armazenar os dados de cada trabalho
 
 """
-struct Work
+struct Presentation
     id::Int
     nThemes::Int
     nAuthors::Int
