@@ -12,6 +12,11 @@ module Pose
 
     function __init__()
 
+        if size(ARGS)[1] < 1
+            println("É necessário passar um arquivo de entrada")
+            return
+        end
+
         # nThemes, nAuthors, nPresentations, nSessions, presentations, sessions = reader("./datafiles/problema1.txt")
         nThemes, nAuthors, nPresentations, nSessions, presentations, sessions = reader(ARGS[1])
         println("Numero de temas = ", nThemes)

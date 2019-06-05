@@ -22,34 +22,46 @@ function reader(nameFile::String)
             mapped = map(x->parse(Int, x), line)
             nPresentationThemes = mapped[1]
             presentationThemes = Array{Int}(undef, nPresentationThemes)
-
+            
+            
             for theme = 1:nPresentationThemes
                 presentationThemes[theme] = mapped[theme + 1]
             end
-
+            
+            
             nPresentationAuthors = mapped[nPresentationThemes + 2]
             presentationAuthors = Array{Int}(undef, nPresentationAuthors)
-
+            
             for author = 1:nPresentationAuthors
                 presentationAuthors[author] = mapped[author + nPresentationThemes + 2]
             end
+
+            for i in collect(1:nPresentationThemes)
+                presentationThemes[i] = presentationThemes[i] + 1
+            end
+            
+            for i in collect(1:nPresentationAuthors)
+                presentationAuthors[i] = presentationAuthors[i] + 1
+            end
+            
+
             presentation = Presentation(count, nPresentationThemes, nPresentationAuthors, presentationThemes, presentationAuthors)
             presentations[count] = presentation
         end
-
+        
         nSessions = parse(Int, readline(file))
         sessions = Array{Session}(undef, nSessions)
-
+        
         for count = 1:nSessions
             line = split(readline(file))
             mapped = map(x->parse(Int, x), line)
             session = constructorSession(count, mapped[1], mapped[2], mapped[3],  mapped[4], mapped[5],
-                              mapped[6], mapped[7])
+            mapped[6], mapped[7])
             sessions[count] = session
         end
-
+        
         return nThemes, nAuthors, nPresentations, nSessions, presentations, sessions
-
+        
     end
 
 end
