@@ -51,7 +51,7 @@ function createModel(n_themes, n_authors, n_presentations, n_sessions, presentat
     presentations_similarity = calculate_similarity(n_presentations, presentations, presentations_struct)
 
     # Capacidade de cada horario
-    schedules_capacity = 100
+    schedules_capacity = 3
     dates_capacity = 1000
 
     # Cria um vetor de capacidades minimas e maximas de cada sessao
@@ -138,7 +138,7 @@ function createModel(n_themes, n_authors, n_presentations, n_sessions, presentat
     ##       0, caso contrario
     @variable(
                 model, 
-                1 >= presentations_are_in_same_session[1:n_presentations, 1:n_presentations] >= 0, 
+                1 >= presentations_are_in_same_session[1:n_sessions ,1:n_presentations, 1:n_presentations] >= 0, 
                 Int
              )
 
@@ -152,140 +152,145 @@ function createModel(n_themes, n_authors, n_presentations, n_sessions, presentat
                 Max, 
                 sum(
                     sum(
-                        presentations_similarity[i, j] * presentations_are_in_same_session[i, j]
-                        for i in presentations
+                        sum(
+                            presentations_similarity[i, j] * presentations_are_in_same_session[s, i, j]
+                            # presentations_are_in_same_session[s, i, j]
+                            for i in presentations
+                        )
+                        for j in presentations
                     )
-                    for j in presentations
+                    for s in sessions
                 )
     )
 
     #### RESTRICOES ####
 
 
-    # for i in presentations
-    #     # Cria restricao
-    #     ## Cada apresentacao deve ser alocada a exatamente uma sessao
-    #     @constraint(model, sum(presentations_session[i,se] for se in sessions) == 1)
+    for i in presentations
+        # Cria restricao
+        ## Cada apresentacao deve ser alocada a exatamente uma sessao
+        @constraint(model, sum(presentations_session[i,se] for se in sessions) == 1)
 
-    #     # Cria restricoes
-    #     ## Define o valor da variavel presentations_are_in_same_session 
-    #     ## formulado como um "AND"
-    #     for j in presentations
-    #         for s in sessions
-    #             @constraints(model, 
-    #                 begin
-    #                     (
-    #                         presentations_are_in_same_session[i,j] 
-    #                         <= presentations_session[i,s]
-    #                     )
+        # Cria restricoes
+        ## Define o valor da variavel presentations_are_in_same_session 
+        ## formulado como um "AND"
+        for j in presentations
+            for s in sessions
+                @constraints(model, 
+                    begin
+                        (
+                            presentations_are_in_same_session[s,i,j] 
+                            <= presentations_session[i,s]
+                        )
 
-    #                     (
-    #                         presentations_are_in_same_session[i,j] 
-    #                         <= presentations_session[j,s]
-    #                     )
+                        (
+                            presentations_are_in_same_session[s,i,j] 
+                            <= presentations_session[j,s]
+                        )
 
-    #                     (
-    #                         presentations_are_in_same_session[i,j] 
-    #                         >= presentations_session[i,s] 
-    #                            + presentations_session[j,s] 
-    #                            - 1
-    #                     )
-    #                 end
-    #             )
-    #         end
-    #     end
-    # end
+                        (
+                            presentations_are_in_same_session[s,i,j] 
+                            >= presentations_session[i,s] 
+                               + presentations_session[j,s] 
+                               - 1
+                        )
+                    end
+                )
+            end
+        end
+    end
 
     # Cria restricoes
     ## Limita a quantidade de temas por horarios
-    # for t in themes
-    #     for s in keys(schedules_sessions)
-    #         @constraints(model, 
-    #             begin
-    #                 (
-    #                     sum(
-    #                         sum(
-    #                             presentations_session[p, session_i] 
-    #                             * presentations_themes[p, t] 
-    #                             for session_i in schedules_sessions[s]
-    #                         )  
-    #                         for p in presentations
-    #                     ) 
-    #                     <= schedules_capacity
-    #                 )
-    #             end
-    #         )
-    #     end
-    # end
+    for t in themes
+        for s in keys(schedules_sessions)
+            @constraints(model, 
+                begin
+                    (
+                        sum(
+                            sum(
+                                presentations_session[p, session_i] 
+                                * presentations_themes[p, t] 
+                                for session_i in schedules_sessions[s]
+                            )  
+                            for p in presentations
+                        ) 
+                        <= schedules_capacity
+                    )
+                end
+            )
+        end
+    end
 
     # Cria restricoes
     ## Limita a quantidade de temas por dia
-    # for t in themes
-    #     for d in keys(dates_schedules)
 
-    #         @constraints(model, 
-    #             begin
-    #                 (
-    #                     sum(
-    #                         sum(
-    #                             sum( 
-    #                                 presentations_session[p, s] * presentations_themes[p,t] for p in presentations
-    #                             ) 
-    #                             for s in schedules_sessions[schedule_i]
-    #                         ) 
-    #                         for schedule_i in dates_schedules[d]
-    #                     ) 
-    #                     <= dates_capacity
-    #                 )
-    #             end
-    #         )
-    #     end
-    # end
+    for t in themes
+        for d in keys(dates_schedules)
+
+            @constraints(model, 
+                begin
+                    (
+                        sum(
+                            sum(
+                                sum( 
+                                    presentations_session[p, s] * presentations_themes[p,t] for p in presentations
+                                ) 
+                                for s in schedules_sessions[schedule_i]
+                            ) 
+                            for schedule_i in dates_schedules[d]
+                        ) 
+                        <= dates_capacity
+                    )
+                end
+            )
+        end
+    end
 
     # Cria restricoes
     ## Limita a quantidade de apresentacoes por sessao 
     ## de acordo com capacidades minimas e maximas
 
-    # for s in sessions
-    #     @constraints(model,
-    #         begin
-    #             (
-    #                 sum(
-    #                     presentations_session[p, s] 
-    #                     for p in presentations
-    #                 ) 
-    #                 <= max_capacity[s] 
-    #             )
+    for s in sessions
+        @constraints(model,
+            begin
+                (
+                    sum(
+                        presentations_session[p, s] 
+                        for p in presentations
+                    ) 
+                    <= max_capacity[s] 
+                )
                 
-    #             (
-    #                 sum(
-    #                     presentations_session[p, s] 
-    #                     for p in presentations
-    #                 ) 
-    #                 >= min_capacity[s] 
-    #             )
-    #         end
-    #     )
-    # end
+                (
+                    sum(
+                        presentations_session[p, s] 
+                        for p in presentations
+                    ) 
+                    >= min_capacity[s] 
+                )
+            end
+        )
+    end
 
     # Cria restricoes
     ## Impede que o mesmo autor esteja em mais de uma sessao por horario
     
-    # for schedule in keys(schedules_sessions)
-    #     for a in authors
-    #         @constraint(
-    #             model,
-    #             sum(
-    #                sum(
-    #                     presentations_session[i, s] * presentations_authors[i, a]
-    #                     for i in presentations
-    #                 )
-    #                 for s in schedules_sessions[schedule]
-    #             )
-    #             <= 1
-    #         )
-    #     end
-    # end
+    for schedule in keys(schedules_sessions)
+        for a in authors
+            @constraint(
+                model,
+                sum(
+                   sum(
+                        presentations_session[i, s] * presentations_authors[i, a]
+                        for i in presentations
+                    )
+                    for s in schedules_sessions[schedule]
+                )
+                <= 1
+            )
+        end
+    end
 
 
 
@@ -319,6 +324,34 @@ function createModel(n_themes, n_authors, n_presentations, n_sessions, presentat
     # end
     println("----------------------------------------------------------")
     optimize!(model)
+    
+    for i in presentations
+        for s in sessions
+            if (JuMP.value(presentations_session[i,s]) == 0)
+                print(0.0, " ")
+            else
+                print(JuMP.value(presentations_session[i,s]), " ")
+            end
+        end
+        println()
+    end
+    println("----------------------------------------------------------")
+
+
+    for s in sessions
+        println("Sessão: ", s)
+        for i in presentations
+            for j in presentations
+                if (JuMP.value(presentations_are_in_same_session[s,i,j]) == 0)
+                    print(0.0, " ")
+                else
+                    print(JuMP.value(presentations_are_in_same_session[s,i,j]), " ")
+                end
+            end
+            println()
+        end
+    end
+        
 
 
 end
