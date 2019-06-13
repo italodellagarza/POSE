@@ -11,10 +11,32 @@ using JuMP
 include("Session.jl")
 include("Presentation.jl")
 
+function calculate_similarity(n_presentations, presentations, presentations_struct)
+    presentations_similarity = zeros(n_presentations, n_presentations)
+    for i in presentations
+        for j in presentations
+            if (i != j)
+                themes_i = presentations_struct[i].themes
+                themes_j = presentations_struct[j].themes
+                intersection_size = size(findall(in(themes_i), themes_j))[1]
+
+                number_themes_i = presentations_struct[i].nThemes
+                number_themes_j = presentations_struct[j].nThemes
+                total_number_of_themes = number_themes_i + number_themes_j
+                
+                presentations_similarity[i, j] = intersection_size * 2 / total_number_of_themes
+            end
+        end
+    end
+    return presentations_similarity
+end
+
+
 function createModel(n_themes, n_authors, n_presentations, n_sessions, presentations_struct, sessions_struct)
     model = Model(with_optimizer(Gurobi.Optimizer))
     
     #### DADOS ####
+    
     
     # Sessoes definidas como vetor de indices
     sessions = collect(1:n_sessions)
@@ -25,9 +47,12 @@ function createModel(n_themes, n_authors, n_presentations, n_sessions, presentat
     # Autores definidos como vetor de indices
     authors = collect(1:n_authors)
     
-    
+    # Calcula os valores de similaridade para cada par de apresentacoes
+    presentations_similarity = calculate_similarity(n_presentations, presentations, presentations_struct)
+
     # Capacidade de cada horario
-    schedules_capacity = 5
+    schedules_capacity = 3
+    dates_capacity = 1000
 
     # Cria um vetor de capacidades minimas e maximas de cada sessao
     max_capacity = []
@@ -113,10 +138,30 @@ function createModel(n_themes, n_authors, n_presentations, n_sessions, presentat
     ##       0, caso contrario
     @variable(
                 model, 
-                1 >= presentations_are_in_same_session[1:n_presentations, 1:n_presentations] >= 0, 
+                1 >= presentations_are_in_same_session[1:n_sessions ,1:n_presentations, 1:n_presentations] >= 0, 
                 Int
              )
 
+
+
+    #### FUNCAO OBJETIVO ####
+
+
+    @objective(
+                model, 
+                Max, 
+                sum(
+                    sum(
+                        sum(
+                            presentations_similarity[i, j] * presentations_are_in_same_session[s, i, j]
+                            # presentations_are_in_same_session[s, i, j]
+                            for i in presentations
+                        )
+                        for j in presentations
+                    )
+                    for s in sessions
+                )
+    )
 
     #### RESTRICOES ####
 
@@ -134,17 +179,17 @@ function createModel(n_themes, n_authors, n_presentations, n_sessions, presentat
                 @constraints(model, 
                     begin
                         (
-                            presentations_are_in_same_session[i,j] 
+                            presentations_are_in_same_session[s,i,j] 
                             <= presentations_session[i,s]
                         )
 
                         (
-                            presentations_are_in_same_session[i,j] 
+                            presentations_are_in_same_session[s,i,j] 
                             <= presentations_session[j,s]
                         )
 
                         (
-                            presentations_are_in_same_session[i,j] 
+                            presentations_are_in_same_session[s,i,j] 
                             >= presentations_session[i,s] 
                                + presentations_session[j,s] 
                                - 1
@@ -170,7 +215,7 @@ function createModel(n_themes, n_authors, n_presentations, n_sessions, presentat
                             )  
                             for p in presentations
                         ) 
-                        <= 10
+                        <= schedules_capacity
                     )
                 end
             )
@@ -179,6 +224,7 @@ function createModel(n_themes, n_authors, n_presentations, n_sessions, presentat
 
     # Cria restricoes
     ## Limita a quantidade de temas por dia
+
     for t in themes
         for d in keys(dates_schedules)
 
@@ -194,7 +240,7 @@ function createModel(n_themes, n_authors, n_presentations, n_sessions, presentat
                             ) 
                             for schedule_i in dates_schedules[d]
                         ) 
-                        <= 10
+                        <= dates_capacity
                     )
                 end
             )
@@ -204,6 +250,7 @@ function createModel(n_themes, n_authors, n_presentations, n_sessions, presentat
     # Cria restricoes
     ## Limita a quantidade de apresentacoes por sessao 
     ## de acordo com capacidades minimas e maximas
+
     for s in sessions
         @constraints(model,
             begin
@@ -226,19 +273,85 @@ function createModel(n_themes, n_authors, n_presentations, n_sessions, presentat
         )
     end
 
+    # Cria restricoes
+    ## Impede que o mesmo autor esteja em mais de uma sessao por horario
+    
+    for schedule in keys(schedules_sessions)
+        for a in authors
+            @constraint(
+                model,
+                sum(
+                   sum(
+                        presentations_session[i, s] * presentations_authors[i, a]
+                        for i in presentations
+                    )
+                    for s in schedules_sessions[schedule]
+                )
+                <= 1
+            )
+        end
+    end
+
 
 
     println(model)
-    println("schedules_sessions")
-    println(schedules_sessions)
-    println("dates_schedules")
-    println(dates_schedules)
-    println("presentations_authors")
+    # println("presentations_themes")
+    # for i in presentations
+    #     print(i, " ")
+    #     for j in themes
+    #         print(presentations_themes[i, j], " ")
+    #     end
+    #     println()
+    # end
+    # println("schedules_sessions")
+    # println(schedules_sessions)
+    # println("dates_schedules")
+    # println(dates_schedules)
+    # println("presentations_authors")
+    # for i in presentations
+    #     print(i, " ")
+    #     for j in authors
+    #         print(presentations_authors[i, j], " ")
+    #     end
+    #     println()
+    # end
+    # println("presentations_similarity")
+    # for i in presentations
+    #     for j in presentations
+    #         print(presentations_similarity[i, j], " ")
+    #     end
+    #     println()
+    # end
+    println("----------------------------------------------------------")
+    optimize!(model)
+    
     for i in presentations
-        print(i, " ")
-        for j in authors
-            print(presentations_authors[i, j], " ")
+        for s in sessions
+            if (JuMP.value(presentations_session[i,s]) == 0)
+                print(0.0, " ")
+            else
+                print(JuMP.value(presentations_session[i,s]), " ")
+            end
         end
         println()
     end
+    println("----------------------------------------------------------")
+
+
+    for s in sessions
+        println("Sessão: ", s)
+        for i in presentations
+            for j in presentations
+                if (JuMP.value(presentations_are_in_same_session[s,i,j]) == 0)
+                    print(0.0, " ")
+                else
+                    print(JuMP.value(presentations_are_in_same_session[s,i,j]), " ")
+                end
+            end
+            println()
+        end
+    end
+        
+
+
 end
