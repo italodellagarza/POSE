@@ -32,8 +32,8 @@ function calculate_similarity(n_presentations, presentations, presentations_stru
 end
 
 
-function createModel(n_themes, n_authors, n_presentations, n_sessions, presentations_struct, sessions_struct)
-    model = Model(with_optimizer(Gurobi.Optimizer))
+function createModel(n_themes, n_authors, n_presentations, n_sessions, presentations_struct, sessions_struct, sc, dc)
+    # model = Model(with_optimizer(Gurobi.Optimizer))
     
     #### DADOS ####
     
@@ -51,8 +51,8 @@ function createModel(n_themes, n_authors, n_presentations, n_sessions, presentat
     presentations_similarity = calculate_similarity(n_presentations, presentations, presentations_struct)
 
     # Capacidade de cada horario
-    schedules_capacity = 3
-    dates_capacity = 1000
+    schedules_capacity = sc
+    dates_capacity = dc
 
     # Cria um vetor de capacidades minimas e maximas de cada sessao
     max_capacity = []
@@ -176,26 +176,30 @@ function createModel(n_themes, n_authors, n_presentations, n_sessions, presentat
         ## formulado como um "AND"
         for j in presentations
             for s in sessions
-                @constraints(model, 
-                    begin
-                        (
-                            presentations_are_in_same_session[s,i,j] 
-                            <= presentations_session[i,s]
-                        )
+                if (j > i)
+                    @constraints(model, 
+                        begin
+                            (
+                                presentations_are_in_same_session[s,i,j] 
+                                <= presentations_session[i,s]
+                            )
 
-                        (
-                            presentations_are_in_same_session[s,i,j] 
-                            <= presentations_session[j,s]
-                        )
+                            (
+                                presentations_are_in_same_session[s,i,j] 
+                                <= presentations_session[j,s]
+                            )
 
-                        (
-                            presentations_are_in_same_session[s,i,j] 
-                            >= presentations_session[i,s] 
-                               + presentations_session[j,s] 
-                               - 1
-                        )
-                    end
-                )
+                            (
+                                presentations_are_in_same_session[s,i,j] 
+                                >= presentations_session[i,s] 
+                                + presentations_session[j,s] 
+                                - 1
+                            )
+                        end
+                    )
+                else
+                    @constraint(model, presentations_are_in_same_session[s,i,j] == 0)
+                end
             end
         end
     end
@@ -322,34 +326,42 @@ function createModel(n_themes, n_authors, n_presentations, n_sessions, presentat
     #     end
     #     println()
     # end
-    println("----------------------------------------------------------")
-    optimize!(model)
-    
-    for i in presentations
-        for s in sessions
-            if (JuMP.value(presentations_session[i,s]) == 0)
-                print(0.0, " ")
-            else
-                print(JuMP.value(presentations_session[i,s]), " ")
-            end
-        end
-        println()
-    end
-    println("----------------------------------------------------------")
 
-
-    for s in sessions
-        println("Sessão: ", s)
+    open("./results/temp.txt", "w") do f
+        println("----------------------------------------------------------")
+        optimize!(model)
+        text = ""
         for i in presentations
-            for j in presentations
-                if (JuMP.value(presentations_are_in_same_session[s,i,j]) == 0)
+            for s in sessions
+                if (JuMP.value(presentations_session[i,s]) == 0)
                     print(0.0, " ")
+                    text = string(text, 0.0, " ")
                 else
-                    print(JuMP.value(presentations_are_in_same_session[s,i,j]), " ")
+                    print(JuMP.value(presentations_session[i,s]), " ")
+                    text = string(text,JuMP.value(presentations_session[i,s]), " ")
                 end
             end
             println()
+            text = string(text, "\n")
         end
+        println("----------------------------------------------------------")
+
+
+        for s in sessions
+            println("Sessão: ", s)
+            for i in presentations
+                for j in presentations
+                    if (JuMP.value(presentations_are_in_same_session[s,i,j]) == 0)
+                        print(0.0, " ")
+                    else
+                        print(JuMP.value(presentations_are_in_same_session[s,i,j]), " ")
+                    end
+                end
+                println()
+            end
+        end
+        write(f, text)
+
     end
         
 

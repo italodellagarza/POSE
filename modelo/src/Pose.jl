@@ -12,13 +12,19 @@ module Pose
 
     function __init__()
 
-        if size(ARGS)[1] < 1
-            println("É necessário passar um arquivo de entrada")
+        if size(ARGS)[1] < 3
+            println("É necessário passar um arquivo de entrada, além dos limites de temas por horario e dia")
+            println("Exemplo de entrada: ")
+            println("julia src/Pose.jl <arquivo de teste> <capacidade de horario> <capacidade por dia>")
+
             return
         end
 
         # nThemes, nAuthors, nPresentations, nSessions, presentations, sessions = reader("./datafiles/problema1.txt")
         nThemes, nAuthors, nPresentations, nSessions, presentations, sessions = reader(ARGS[1])
+        schedule_capacity = parse(Int, ARGS[2])
+        date_capacity = parse(Int, ARGS[3])
+        
         println("Numero de temas = ", nThemes)
         println("Numero de autores = ", nAuthors)
         println("Numero de trabalhos = ", nPresentations)
@@ -48,7 +54,7 @@ module Pose
         println()
         println()
 
-        createModel(nThemes, nAuthors, nPresentations, nSessions, presentations, sessions)
+        createModel(nThemes, nAuthors, nPresentations, nSessions, presentations, sessions, schedule_capacity, date_capacity)
 
     end
 end
