@@ -129,7 +129,7 @@ def read_input(file_name, presentations_sessions):
                 presentation['themes'].append(int(line[j]))
 
             # numero de autores daquela apresentacao
-            na = int(line[nt+1])
+            # na = int(line[nt+1])
             for j in range(nt+2, len(line)):
                 presentation['authors'].append(int(line[j]))
             
