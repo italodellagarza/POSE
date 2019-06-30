@@ -64,6 +64,7 @@ function is_possible_select(presentation, presentations_struct, session, session
         end
     end
 
+
     return true
 end
 
@@ -119,7 +120,7 @@ function heuristic(n_themes, n_authors, n_presentations, n_sessions, presentatio
                 presentations_struct[best_presentation.id] = new_presentation
                 append!(session.presentations, new_presentation.id)
             end
-            if (added == false || size(session.presentations)[1] > session.capacity)
+            if (added == false || size(session.presentations)[1] >= session.capacity)
                 finished = true
             end
         end
@@ -145,10 +146,20 @@ function heuristic(n_themes, n_authors, n_presentations, n_sessions, presentatio
     for session in sessions_struct
         for presentation in session.presentations
             println(presentation, " ", n_presentations)
-            # p = presentations_struct
-            presentation_sessions[presentation, session.id] = 1
+            presentation_sessions[presentation, session.id] = 1 
         end
     end
+    
+    output = ""
+    for presentation in presentations
+        for session in sessions
+            output = string(output, presentation_sessions[presentation, session], " ") 
+        end
+        output = string(output, "\n") 
+    end
+    println(output)
 
-    println(presentation_sessions)
+    open("./results/temp.txt", "w") do f 
+        write(f, output)
+    end
 end
