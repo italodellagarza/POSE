@@ -94,19 +94,24 @@ def check_one_presentation_schedule_per_author(sessions_by_date):
 
 def read_results(file_name):
     with open(file_name, "r") as file:
-        lines = file.read().splitlines()[1:-1]
+        lines = file.read().splitlines()
+        time = float(lines[0].strip().split(":")[1])
+        objective_value = float(lines[-1].strip().split(":")[1])
+        lines = lines[1:-1]
+
+        print(time, objective_value)
+
         presentations_sessions = []
         for line in lines:
             line = line.strip().split(" ")
             new_line = []
             for v in line:
-                print(v)
                 new_line.append(int(float(v)))
 
             presentations_sessions.append(new_line)
 
     pprint.pprint(presentations_sessions)
-    return presentations_sessions
+    return (presentations_sessions, time, objective_value)
 
 def read_input(file_name, presentations_sessions):
     with open(file_name, "r") as file:
@@ -203,7 +208,7 @@ print(schedule_capacity)
 date_capacity = int(sys.argv[4])
 print(date_capacity)
 
-presentations_sessions = read_results(res_file_name)
+presentations_sessions, time, object_value = read_results(res_file_name)
 n_presentations, n_themes, n_authors, n_sessions, presentations, sessions, sessions_by_date = read_input(in_file_name, presentations_sessions)
 
 
