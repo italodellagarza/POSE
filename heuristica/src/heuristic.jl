@@ -24,19 +24,21 @@ end
 function is_possible_select(presentation, presentations_struct, session, sessions_struct, schedules_capacity, dates_capacity)
     is_possible = true
     
-    #verifica o número máximo de temas por dia e horário e autor
+    #verifica o número máximo de temas por dia e por horário e autor
     for theme in presentation.themes
         nThemes_date = 0
         nThemes_schedule = 0
         for session_ in sessions_struct
             if (session.date == session_.date)
                 for presentation_id in session_.presentations
-                    presentation_ = presentations_struct[presentation_id]
-                    for theme_ in presentation_.themes
-                        if (theme == theme_)
-                            nThemes_date = nThemes_date + 1
-                            if (session.schedule == session_.schedule)
-                                nThemes_schedule = nThemes_schedule + 1
+                    if (presentation.id != presentation_id)
+                        presentation_ = presentations_struct[presentation_id]
+                        for theme_ in presentation_.themes
+                            if (theme == theme_)
+                                nThemes_date = nThemes_date + 1
+                                if (session.schedule == session_.schedule)
+                                    nThemes_schedule = nThemes_schedule + 1
+                                end
                             end
                         end
                     end
@@ -52,11 +54,13 @@ function is_possible_select(presentation, presentations_struct, session, session
     for session_ in sessions_struct
         if (session.schedule == session_.schedule)
             for presentation_id in session_.presentations
-                presentation_ = presentations_struct[presentation_id]
-                for author in presentation.authors
-                    for author_ in presentation_.authors
-                        if (author == author_)
-                            return false
+                if (presentation_id != presentation.id)
+                    presentation_ = presentations_struct[presentation_id]
+                    for author in presentation.authors
+                        for author_ in presentation_.authors
+                            if (author == author_)
+                                return false
+                            end
                         end
                     end
                 end
@@ -67,6 +71,7 @@ function is_possible_select(presentation, presentations_struct, session, session
 
     return true
 end
+
 
 function greedy_heuristic(n_themes, n_authors, n_presentations, n_sessions, presentations_struct, sessions_struct, presentations_similarity)    
     # Sessoes definidas como vetor de indices
@@ -125,7 +130,60 @@ function greedy_heuristic(n_themes, n_authors, n_presentations, n_sessions, pres
             end
         end
     end
-    
+
+    for presentation in presentations_struct
+        if (presentation.session == -1)
+            sessions_available = []
+            for session in sessions_struct
+                nPresentations, = size(session.presentations)
+                if (nPresentations < session.capacity)
+                    append!(sessions_available, session.id)
+                end
+            end
+            presentation_added = false
+            for session in sessions_struct
+                for presentation_ in session.presentations
+                    for session_ in sessions_available
+                        if (is_possible_select(presentations_struct[presentation_], presentations_struct, sessions_struct[session_], sessions_struct, schedules_capacity, dates_capacity))
+                            filter!(e -> e ≠ presentation_,session.presentations)
+                            
+                            if (is_possible_select(presentation, presentations_struct, session, sessions_struct, schedules_capacity, dates_capacity))
+                                new_presentation = Presentation(presentation.id, presentation.nThemes,
+                                                    presentation.nAuthors, presentation.themes,
+                                                    presentation.authors, session.id)
+                                
+                                presentations_struct[presentation.id] = new_presentation
+                                append!(session.presentations, new_presentation.id)
+
+                                new_presentation = Presentation(presentations_struct[presentation_].id, presentations_struct[presentation_].nThemes,
+                                                    presentations_struct[presentation_].nAuthors, presentations_struct[presentation_].themes,
+                                                    presentations_struct[presentation_].authors, sessions_struct[session_].id)
+                                
+                                presentations_struct[presentation_] = new_presentation
+                                append!(sessions_struct[session_].presentations, new_presentation.id)
+                                presentation_added = true
+                                break
+                            else
+                                append!( session.presentations, presentation_)
+                            end
+                        end
+                    end
+                    if (presentation_added)
+                        break
+                    end
+                end
+                if (presentation_added)
+                    break
+                end
+            end
+        end
+    end
+
+    println("AQUI")
+    for presentation in presentations_struct
+        println(presentation)
+    end
+
     return sessions_struct
     
 end
@@ -146,16 +204,16 @@ function heuristic(n_themes, n_authors, n_presentations, n_sessions, presentatio
     
     
     
-    for session in sessions_struct
-        println("Sessão: ", session.id)
-        println("horario: ", session.schedule)
-        println("n presentation", session.presentations)
-    end
+    # for session in sessions_struct
+        # println("Sessão: ", session.id)
+        # println("horario: ", session.schedule)
+        # println("n presentation", session.presentations)
+    # end
     
     presentation_sessions = zeros(n_presentations, n_sessions)
     for session in sessions_struct
         for presentation in session.presentations
-            println(presentation, " ", n_presentations)
+            # println(presentation, " ", n_presentations)
             presentation_sessions[presentation, session.id] = 1 
         end
     end
@@ -191,7 +249,7 @@ function heuristic(n_themes, n_authors, n_presentations, n_sessions, presentatio
         
     
     output = string(output, "objective_function_value : ", function_value)
-    println(output)
+    # println(output)
     
     
     open("./results/temp.txt", "w") do f 
