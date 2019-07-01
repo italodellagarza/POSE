@@ -43,8 +43,6 @@ module Pose
         end
         println()
 
-
         heuristic(nThemes, nAuthors, nPresentations, nSessions, presentations, sessions)
-
     end
 end

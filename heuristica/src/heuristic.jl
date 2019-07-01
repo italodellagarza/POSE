@@ -68,8 +68,7 @@ function is_possible_select(presentation, presentations_struct, session, session
     return true
 end
 
-function heuristic(n_themes, n_authors, n_presentations, n_sessions, presentations_struct, sessions_struct)
-    
+function greedy_heuristic(n_themes, n_authors, n_presentations, n_sessions, presentations_struct, sessions_struct, presentations_similarity)    
     # Sessoes definidas como vetor de indices
     sessions = collect(1:n_sessions)
     # Apresentacoes definidas como vetor de indices
@@ -79,13 +78,12 @@ function heuristic(n_themes, n_authors, n_presentations, n_sessions, presentatio
     # Autores definidos como vetor de indices
     authors = collect(1:n_authors)
 
-    # Calcula os valores de similaridade para cada par de apresentacoes
-    presentations_similarity = calculate_similarity(n_presentations, presentations, presentations_struct)
-
+    
     # Capacidade de cada horario
     schedules_capacity = 3
     dates_capacity = 1000
-
+    
+    
     for session in sessions_struct
         nPresentation, = size(session.presentations)
         finished = false
@@ -114,9 +112,11 @@ function heuristic(n_themes, n_authors, n_presentations, n_sessions, presentatio
             end
             if (added)
                 println(best_presentation)
+                
                 new_presentation = Presentation(best_presentation.id, best_presentation.nThemes,
-                                                best_presentation.nAuthors, best_presentation.themes,
-                                                best_presentation.authors, session.id)
+                best_presentation.nAuthors, best_presentation.themes,
+                best_presentation.authors, session.id)
+                
                 presentations_struct[best_presentation.id] = new_presentation
                 append!(session.presentations, new_presentation.id)
             end
@@ -125,23 +125,33 @@ function heuristic(n_themes, n_authors, n_presentations, n_sessions, presentatio
             end
         end
     end
+    
+    return sessions_struct
+    
+end
 
-    for presentation in presentations_struct
-        println("Trabalho: ", presentation.id)
-        # println("Numero de temas ", presentation.nThemes)
-        println("Temas: ", presentation.themes)
-        # println("Numero de Autores: ", presentation.nAuthors)
-        println("Autores: ", presentation.authors)
-        println("sessao: ", presentation.session)
-        println()
+function heuristic(n_themes, n_authors, n_presentations, n_sessions, presentations_struct, sessions_struct)
+    
+    presentations = collect(1:n_presentations)
+    sessions = collect(1:n_sessions)
+
+    # Calcula os valores de similaridade para cada par de apresentacoes
+    presentations_similarity = calculate_similarity(n_presentations, presentations, presentations_struct)
+    
+    t = @elapsed begin
+        results_struct = greedy_heuristic(n_themes, n_authors, n_presentations, n_sessions, presentations_struct, sessions_struct, presentations_similarity)
     end
-
+    println(t)
+    
+    
+    
+    
     for session in sessions_struct
         println("Sessão: ", session.id)
         println("horario: ", session.schedule)
         println("n presentation", session.presentations)
     end
-
+    
     presentation_sessions = zeros(n_presentations, n_sessions)
     for session in sessions_struct
         for presentation in session.presentations
@@ -151,15 +161,41 @@ function heuristic(n_themes, n_authors, n_presentations, n_sessions, presentatio
     end
     
     output = ""
+    output = string("time : ", t, "\n")
     for presentation in presentations
         for session in sessions
-            output = string(output, presentation_sessions[presentation, session], " ") 
+            output = string(
+                output, 
+                presentation_sessions[presentation, session], 
+                " "
+            ) 
         end
         output = string(output, "\n") 
     end
-    println(output)
+    function_value = 0
+    
+    for session in results_struct
+        println(session)
+        for presentation1 in session.presentations
+            for presentation2 in session.presentations
+                if (presentation2 > presentation1)
+                    function_value = (
+                        function_value + 
+                        presentations_similarity[presentation1, presentation2]
+                    )
+                end
+            end
+        end
+    end
 
+        
+    
+    output = string(output, "objective_function_value : ", function_value)
+    println(output)
+    
+    
     open("./results/temp.txt", "w") do f 
         write(f, output)
     end
+    
 end

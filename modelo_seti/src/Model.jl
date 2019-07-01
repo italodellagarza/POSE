@@ -335,10 +335,15 @@ function createModel(n_themes, n_authors, n_presentations, n_sessions, presentat
     #     println()
     # end
 
-    open("./results/temp.txt", "w") do f
-        println("----------------------------------------------------------")
+    println("----------------------------------------------------------")
+    t = @elapsed begin
         optimize!(model)
+    end
+    println(t)
+
+    open("./results/temp.txt", "w") do f
         text = ""
+        text = string("time : ", t, "\n")
         for i in presentations
             for s in sessions
                 if (JuMP.value(presentations_session[i,s]) == 0)
@@ -354,6 +359,8 @@ function createModel(n_themes, n_authors, n_presentations, n_sessions, presentat
         end
         println("----------------------------------------------------------")
 
+
+        text = string(text, "objective_function_value : ", objective_value(model))
 
         for s in sessions
             println("Sessão: ", s)

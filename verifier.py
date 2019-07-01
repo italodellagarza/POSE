@@ -94,7 +94,7 @@ def check_one_presentation_schedule_per_author(sessions_by_date):
 
 def read_results(file_name):
     with open(file_name, "r") as file:
-        lines = file.read().splitlines()
+        lines = file.read().splitlines()[1:-1]
         presentations_sessions = []
         for line in lines:
             line = line.strip().split(" ")
