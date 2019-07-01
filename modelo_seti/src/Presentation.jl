@@ -10,4 +10,5 @@ struct Presentation
     nAuthors::Int
     themes::Array{Int64,1}
     authors::Array{Int64,1}
+    type::Int
 end

@@ -275,6 +275,14 @@ function createModel(n_themes, n_authors, n_presentations, n_sessions, presentat
                 )
             end
         )
+
+        for p in presentations
+            presentation = presentations_struct[p]
+            session = sessions_struct[s]
+            if !(presentation.type in session.types)
+                @constraint(model, presentations_session[p, s] == 0)
+            end
+        end
     end
 
     # Cria restricoes
