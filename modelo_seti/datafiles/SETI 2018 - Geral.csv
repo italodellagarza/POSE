@@ -1,0 +1,49 @@
+Dia,Hora,Local,Titulo,Tipo,Palestrante
+24,13:30,Anfiteatro,Teste de SoftwareBaseado em Máquinas de Estados Finitos,0,Prof. Adenilson Simão
+24,13:30,LAB 4,Tudo o que você quer saber sobre Git,1,William Santos
+24,15:00,Anfiteatro,Desenvolvimento de jogos para a saúde,0,Prof(a) Rani Alves
+24,16:30,Anfiteatro,"Não construa produtos, construa experiências",0,Stéfano Girardelli
+24,18:00,LAB 4,Minicurso Vue.js,1,Gustavo Lopes Dominguete
+24,18:30,Anfiteatro,Como é trabalhar na IBM Irlanda,0,Luis Henrique Borges
+24,20:00,Anfiteatro,DX (Developer Experience),0,Jimmy Andrade
+25,09:00,Jardim,Feira ITShare,2,ITShare
+25,09:00,Anfiteatro,Programação Funcional,0,Cleber Lopes
+25,09:00,LAB 4,Workshop ITIL e Big Data,1,Marcelo Manao/Luiz Candido
+25,10:30,Anfiteatro,Qualidade de software,0,Giancarlo Ciscon
+25,13:30,Anfiteatro,DevOps,0,Carlos Eduardo Melo
+25,13:30,LAB 4,Cordova e Ionic,1,Cleber Lopes
+25,14:00,Jardim,Feira ITShare,2,ITShare
+25,15:00,Anfiteatro,PLN,0,Erick Maziero
+25,16:30,Anfiteatro,TI,0,Adriano Marques Figueiredo
+25,17:00,LAB 4,Como desenvolver características empreendedoras - SEBRAE,1,Francisco Correa
+25,18:30,Anfiteatro,Ecossistema de Empreendedorismo e Inovação SEBRAE,0,Tatiana Bastos
+25,20:00,Anfiteatro,O papel da tecnologia para as empresas do século XXI,0,João Adeodato Neto
+26,09:00,Anfiteatro,Hackaton,3,Accenture
+26,10:30,Anfiteatro,BPM na prática,0,Deivison Araújo
+26,13:30,LAB 4,React.js,1,Breno Henrique
+26,13:30,Jardim,Feira Sydle,2,Sydle
+26,15:00,Anfiteatro,Iniciativas sociais de base tecnológica na área da saúde,0,Maria Elizete Kunkel
+26,16:30,Anfiteatro,Veículos Inteligentes,0,Danilo Lima
+26,17:00,LAB 4,Modelo de negócio SEBRAE,1,Francisco Corrêa
+26,18:30,Anfiteatro,Boas práticas e os princípios de qualidade em código,0,Mariana de Azevedo Santos
+26,20:00,Anfiteatro,Internet das coisas,0,André Curvelo
+27,09:00,Jardim,Feira Sydle,2,Sydle
+27,09:00,Anfiteatro,Machine Learning,0,Prof. Rodrigo Mello
+27,09:00,LAB 4,Intraweb com Bootstrap,1,Marcelo Giratto
+27,10:30,Jardim,Feira Accenture,2,Accenture
+27,10:30,Anfiteatro,Computação Forense,0,Pedro Eleutério
+27,13:30,Anfiteatro,Propriedade intelectual de games,0,Henrique/Bruno
+27,13:30,LAB 4,Teste de mutação,1,Juliana Botelho
+27,14:00,Jardim,Feira Accenture,2,Accenture
+27,15:00,Anfiteatro,Como não f**** sua aplicação,0,Tiago Drumond
+27,16:30,Anfiteatro,Marketing para aplicativos,0,Adriano Santos
+27,18:00,LAB 4,JUnit,1,Franciele Ferreira
+27,18:30,Anfiteatro,Arduino e Raspberry,0,Gláucio Ferreira Loureiro
+27,20:00,Anfiteatro,Empreendedorismo no Mercado de Inovação,0,Walter Galvão Neto
+28,09:00,Jardim,Feira Squadra,2,Squadra
+28,09:00,Anfiteatro,Desenvolvimento em nuvem,0,Gustavo Henrique Marotta
+28,09:00,LAB 4,Introdução ao CTF - capture the flag,0,Tiago Drummond
+28,10:30,Anfiteatro,Pits Hackaton,3,Accenture
+28,13:30,Anfiteatro,Inteligencia artifical + blockchain,0,Gustavo Montenegro
+28,15:00,Anfiteatro,Mulheres líderes na tecnologia,0,Gabriela Amaral Oliveira
+28,16:30,Anfiteatro,Fatores de sucesso para ecossistemas de inovação e empreendedorismo,0,Ninguem
