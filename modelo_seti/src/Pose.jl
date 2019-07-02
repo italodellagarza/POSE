@@ -22,7 +22,7 @@ module Pose
         end
 
         # nThemes, nAuthors, nPresentations, nSessions, presentations, sessions = reader("./datafiles/problema1.txt")
-        nThemes, nAuthors, nPresentations, nSessions, presentations, sessions = reader(ARGS[1])
+        nThemes, nAuthors, nPresentations, nSessions, presentations, sessions, authors = reader(ARGS[1])
         schedule_capacity = parse(Int, ARGS[2])
         date_capacity = parse(Int, ARGS[3])
         
@@ -55,7 +55,7 @@ module Pose
         println()
         println()
 
-        createModel(nThemes, nAuthors, nPresentations, nSessions, presentations, sessions, schedule_capacity, date_capacity)
+        createModel(nThemes, nAuthors, nPresentations, nSessions, presentations, sessions, authors, schedule_capacity, date_capacity)
 
     end
 end

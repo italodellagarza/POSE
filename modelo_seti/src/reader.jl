@@ -49,14 +49,14 @@ function reader(nameFile::String)
                 presentationThemes[theme] = mapped[theme + 1]
             end
             
-            
             nPresentationAuthors = mapped[nPresentationThemes + 2]
             presentationAuthors = Array{Int}(undef, nPresentationAuthors)
             
             for author = 1:nPresentationAuthors
                 presentationAuthors[author] = mapped[author + nPresentationThemes + 2]
             end
-
+            
+            
             for i in collect(1:nPresentationThemes)
                 presentationThemes[i] = presentationThemes[i] + 1
             end
@@ -65,7 +65,7 @@ function reader(nameFile::String)
                 presentationAuthors[i] = presentationAuthors[i] + 1
             end
             
-            type = mapped[nPresentationAuthors + nPresentationThemes + 2]
+            type = mapped[nPresentationAuthors + nPresentationThemes + 3]
 
 
             presentation = Presentation(count, nPresentationThemes, nPresentationAuthors, presentationThemes, presentationAuthors, type)
@@ -92,7 +92,7 @@ function reader(nameFile::String)
             sessions[count] = session
         end
         
-        return nThemes, nAuthors, nPresentations, nSessions, presentations, sessions
+        return nThemes, nAuthors, nPresentations, nSessions, presentations, sessions, authors_struct
         
     end
 

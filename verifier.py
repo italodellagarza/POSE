@@ -95,9 +95,11 @@ def check_one_presentation_schedule_per_author(sessions_by_date):
 def read_results(file_name):
     with open(file_name, "r") as file:
         lines = file.read().splitlines()
-        time = float(lines[0].strip().split(":")[1])
+        schedule_capacity = int(lines[0].strip().split(":")[1])
+        date_capacity = int(lines[1].strip().split(":")[1])
+        time = float(lines[2].strip().split(":")[1])
         objective_value = float(lines[-1].strip().split(":")[1])
-        lines = lines[1:-1]
+        lines = lines[3:-1]
 
         print(time, objective_value)
 
@@ -111,7 +113,7 @@ def read_results(file_name):
             presentations_sessions.append(new_line)
 
     pprint.pprint(presentations_sessions)
-    return (presentations_sessions, time, objective_value)
+    return (presentations_sessions, time, objective_value, schedule_capacity, date_capacity)
 
 def read_input(file_name, presentations_sessions):
     with open(file_name, "r") as file:
@@ -187,9 +189,10 @@ def read_input(file_name, presentations_sessions):
 
 
 
-if(len(sys.argv) < 5):
+if(len(sys.argv) < 3):
     print("Exemplo de execucao:")
-    print("python3 results/verifier.py <arquivo de resultados> <arquivo de entrada> <capacidade de horario> <capacidade por dia>")
+    # print("python3 results/verifier.py <arquivo de resultados> <arquivo de entrada> <capacidade de horario> <capacidade por dia>")
+    print("python3 results/verifier.py <arquivo de resultados> <arquivo de entrada>")
     exit(0)
 
 # arquivo de resultados
@@ -201,14 +204,14 @@ in_file_name = sys.argv[2]
 print(in_file_name)
 
 # maxima capacidade de temas por horario
-schedule_capacity = int(sys.argv[3])
-print(schedule_capacity)
+schedule_capacity = -1
+# print(schedule_capacity)
 
 # maxima capacidade de temas por dia
-date_capacity = int(sys.argv[4])
-print(date_capacity)
+date_capacity = -1
+# print(date_capacity)
 
-presentations_sessions, time, object_value = read_results(res_file_name)
+presentations_sessions, time, object_value, schedule_capacity, date_capacity = read_results(res_file_name)
 n_presentations, n_themes, n_authors, n_sessions, presentations, sessions, sessions_by_date = read_input(in_file_name, presentations_sessions)
 
 

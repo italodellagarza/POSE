@@ -1,0 +1,97 @@
+38
+0 William Santos
+1 Ninguem
+2 Tatiana Bastos
+3 Marcelo Manao
+4 Gustavo Montenegro
+5 Walter Galvão Neto
+6 Luiz Candido
+7 Bruno
+8 Adriano Santos
+9 Prof. Adenilson Simão
+10 Henrique
+11 Gustavo Henrique Marotta
+12 João Adeodato Neto
+13 Deivison Araújo
+14 Adriano Marques Figueiredo
+15 Gláucio Ferreira Loureiro
+16 Prof(a) Rani Alves
+17 Gustavo Lopes Dominguete
+18 Franciele Ferreira
+19 Gabriela Amaral Oliveira
+20 Erick Maziero
+21 Francisco Correa
+22 Danilo Lima
+23 Mariana de Azevedo Santos
+24 Tiago Drummond
+25 Juliana Botelho
+26 André Curvelo
+27 Carlos Eduardo Melo
+28 Stéfano Girardelli
+29 Breno Henrique
+30 Jimmy Andrade
+31 Giancarlo Ciscon
+32 Marcelo Giratto
+33 Cleber Lopes
+34 Maria Elizete Kunkel
+35 Pedro Eleutério
+36 Luis Henrique Borges
+37 Prof. Rodrigo Mello
+14
+0 Inclusao
+1 Inteligencia Artificial
+2 Banco de dados
+3 Engenharia de Software
+4 Tecnologia
+5 Marketing
+6 Jogos
+7 Mercado
+8 UX
+9 Hardware
+10 Analise de dados
+11 Saude
+12 Seguranca
+13 Inteligencia artifical
+39
+0 Desenvolvimento de jogos para a saúde
+1 Qualidade de software
+2 O papel da tecnologia para as empresas do século XXI
+3 Desenvolvimento em nuvem
+4 Teste de Software Baseado em Máquinas de Estados Finitos
+5 Boas práticas e os princípios de qualidade em código
+6 PLN
+7 Como não f**** sua aplicação
+8 Workshop ITIL e Big Data
+9 DX (Developer Experience)
+10 BPM na prática
+11 Computação Forense
+12 Como é trabalhar na IBM Irlanda
+13 Minicurso Vue.js
+14 Intraweb com Bootstrap
+15 Introdução ao CTF - capture the flag
+16 Inteligencia artifical + blockchain
+17 Modelo de negócio SEBRAE
+18 Fatores de sucesso para ecossistemas de inovação e empreendedorismo
+19 Tudo o que você quer saber sobre Git
+20 Veículos Inteligentes
+21 Propriedade intelectual de games
+22 Não construa produtos, construa experiências
+23 Como desenvolver características empreendedoras - SEBRAE
+24 Marketing para aplicativos
+25 DevOps
+26 Teste de mutação
+27 Empreendedorismo no Mercado de Inovação
+28 Programação Funcional
+29 Machine Learning
+30 Arduino e Raspberry
+31 Internet das coisas
+32 Cordova e Ionic
+33 Ecossistema de Empreendedorismo e Inovação SEBRAE
+34 TI
+35 Iniciativas sociais de base tecnológica na área da saúde
+36 Mulheres líderes na tecnologia
+37 React.js
+38 JUnit
+2
+1 Minicurso
+0 Palestra

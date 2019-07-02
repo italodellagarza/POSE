@@ -3,6 +3,13 @@ import csv
 import pprint
 import random
 
+def get_tipo(name):
+    if name == "Palestra":
+        return 0
+    elif name == "Minicurso":
+        return 1
+    return -1
+        
 
 input_name = sys.argv[1]
 output_data = sys.argv[2]
@@ -24,9 +31,10 @@ with open("./datafiles/seti.txt") as file_schedules:
     for i in range(len(linhas)):
         linhas[i] = linhas[i].strip().split(" ")
         data = linhas[i][2] + "/" + linhas[i][3] + "/" + linhas[i][4] + " " + linhas[i][5] + ":" + linhas[i][6]
-        
+        tipo = linhas[i][-1]
+        print(tipo)
         if data not in schedules_dict:
-            schedules_dict[data] = count
+            schedules_dict[(data, int(tipo))] = count
             count += 1
     # print(linhas)
 
@@ -48,10 +56,11 @@ for i, apresentacao in enumerate(apresentacoes):
     for p in ps:
         print(p)
         palestrantes.add(p)
+        tipo_id = get_tipo(apresentacao["Tipo"])
         if(p in horarios_palestrante):
-            horarios_palestrante[p].append(schedules_dict[apresentacao["Dia"] + " " + apresentacao["Hora"]])
+            horarios_palestrante[p].append(schedules_dict[(apresentacao["Dia"] + " " + apresentacao["Hora"], tipo_id)])
         else:
-            horarios_palestrante[p] = [schedules_dict[apresentacao["Dia"] + " " + apresentacao["Hora"]]]
+            horarios_palestrante[p] = [schedules_dict[(apresentacao["Dia"] + " " + apresentacao["Hora"], tipo_id)]]
     ts = apresentacao["Temas"].split("-")
     for t in ts:
         temas.add(t)
@@ -114,8 +123,14 @@ text_instance += str(len(dict_palestrantes)) + "\n"
 for index, palestrante in enumerate(dict_palestrantes):
 
     horarios = dict_palestrantes[palestrante][1]
-    for i in range(5):
+    for i in range(len(schedules_dict) - len(dict_palestrantes[palestrante][1])):
         r = random.randint(0,len(schedules_dict)-1)
+        if(r not in horarios):
+            horarios.append(r)
+            r = random.randint(0,len(schedules_dict)-1)        
+        if(r not in horarios):
+            horarios.append(r)
+            r = random.randint(0,len(schedules_dict)-1)
         if(r not in horarios):
             horarios.append(r)
     # print(horarios)
