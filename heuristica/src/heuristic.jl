@@ -318,8 +318,8 @@ function heuristic(n_themes, n_authors, n_presentations, n_sessions, presentatio
     end
     
     output = ""
-    # output = string(output, "schedule_capacity : ", schedule_capacity, "\n")
-    # output = string(output, "date_capacity : ", date_capacity, "\n")
+    output = string(output, "schedule_capacity : ", schedule_capacity, "\n")
+    output = string(output, "date_capacity : ", date_capacity, "\n")
     output = string(output, "time : ", time_heuristic, "\n")
     for presentation in presentations
         for session in sessions

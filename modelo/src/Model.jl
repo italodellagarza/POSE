@@ -335,7 +335,9 @@ function createModel(n_themes, n_authors, n_presentations, n_sessions, presentat
     
     open("./results/temp.txt", "w") do f
         text = ""
-        text = string("time : ", t, "\n")
+        text = string(text, "schedule_capacity : ", schedules_capacity, "\n")
+        text = string(text, "date_capacity : ", dates_capacity, "\n")
+        text = string(text, "time : ", t, "\n")
         for i in presentations
             for s in sessions
                 if (JuMP.value(presentations_session[i,s]) == 0)
