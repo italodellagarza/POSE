@@ -32,7 +32,7 @@ function calculate_similarity(n_presentations, presentations, presentations_stru
 end
 
 
-function createModel(n_themes, n_authors, n_presentations, n_sessions, presentations_struct, sessions_struct, authors_struct, sc, dc)
+function createModel(n_themes, n_authors, n_presentations, n_sessions, presentations_struct, sessions_struct, authors_struct, sc, dc, output_file_name)
     # model = Model(with_optimizer(Gurobi.Optimizer))
     
     #### DADOS ####
@@ -340,51 +340,53 @@ function createModel(n_themes, n_authors, n_presentations, n_sessions, presentat
     #     end
     #     println()
     # end
-    println("----------------------------------------------------------")
+    # println("----------------------------------------------------------")
     t = @elapsed begin
         optimize!(model)
     end
-    println(t)
+    # println(t)
 
-
-    open("./results/temp.txt", "w") do f
-        text = ""
-        text = string(text, "schedule_capacity : ", schedules_capacity, "\n")
-        text = string(text, "date_capacity : ", dates_capacity, "\n")
-        text = string(text, "time : ", t, "\n")
-        for i in presentations
-            for s in sessions
-                if (JuMP.value(presentations_session[i,s]) == 0)
-                    print(0.0, " ")
-                    text = string(text, 0.0, " ")
-                else
-                    print(JuMP.value(presentations_session[i,s]), " ")
-                    text = string(text,JuMP.value(presentations_session[i,s]), " ")
-                end
-            end
-            println()
-            text = string(text, "\n")
-        end
-        println("----------------------------------------------------------")
-
-
-        text = string(text, "objective_function_value : ", objective_value(model))
-
-        for s in sessions
-            println("Sessão: ", s)
+    if (has_values(model))
+        open(output_file_name, "w") do f
+            text = ""
+            text = string(text, "schedule_capacity : ", schedules_capacity, "\n")
+            text = string(text, "date_capacity : ", dates_capacity, "\n")
+            text = string(text, "time : ", t, "\n")
             for i in presentations
-                for j in presentations
-                    if (JuMP.value(presentations_are_in_same_session[s,i,j]) == 0)
-                        print(0.0, " ")
+                for s in sessions
+                    if (JuMP.value(presentations_session[i,s]) == 0)
+                        # print(0.0, " ")
+                        text = string(text, 0.0, " ")
                     else
-                        print(JuMP.value(presentations_are_in_same_session[s,i,j]), " ")
+                        # print(JuMP.value(presentations_session[i,s]), " ")
+                        text = string(text,JuMP.value(presentations_session[i,s]), " ")
                     end
                 end
-                println()
+                # println()
+                text = string(text, "\n")
             end
-        end
-        write(f, text)
+            # println("----------------------------------------------------------")
 
+
+            text = string(text, "objective_function_value : ", objective_value(model))
+
+            for s in sessions
+                # println("Sessão: ", s)
+                for i in presentations
+                    for j in presentations
+                        if (JuMP.value(presentations_are_in_same_session[s,i,j]) == 0)
+                            # print(0.0, " ")
+                        else
+                            # print(JuMP.value(presentations_are_in_same_session[s,i,j]), " ")
+                        end
+                    end
+                    # println()
+                end
+            end
+            write(f, text)
+        end
+    else
+        println("infeasible")
     end
         
 
