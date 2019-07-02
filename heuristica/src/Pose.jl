@@ -47,7 +47,7 @@ module Pose
         # println()
 
         # Numero de iterações da heuristica
-        n_iteration = 1
+        n_iteration = 100
         function_value, output, time_heuristic, percentage_of_errors = heuristic(nThemes, nAuthors, nPresentations, nSessions,
                                                                                 presentations, sessions, schedule_capacity, 
                                                                                 date_capacity, n_iteration)
