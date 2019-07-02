@@ -3,7 +3,7 @@
 // a partir daqui é a listagem dos autores
 5 8 4 11 1 6                // qnt sessoes disponiveis                                                           
 5 12 7 11 5 1               // seguido das sessoes disponiveis                          
-4 2 4 9 5                                                                           
+4 2 4 9 5                   // (qnt sessoes disponiveis, [sessoes disponiveis])                                                      
 5 6 0 3 5 9                                                                         
 5 10 5 2 8 0                                                                            
 5 2 12 6 8 1                                                                            

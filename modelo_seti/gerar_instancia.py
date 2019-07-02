@@ -11,6 +11,7 @@ def get_tipo(name):
     return -1
         
 
+input_schedule = "./datafiles/seti_for_real.txt"
 input_name = sys.argv[1]
 output_data = sys.argv[2]
 output_instance = sys.argv[3]
@@ -23,9 +24,9 @@ for row in input_file:
 
 # pprint.pprint(apresentacoes)
 
-count = 0
+count = 1
 schedules_dict = {}
-with open("./datafiles/seti.txt") as file_schedules:
+with open(input_schedule) as file_schedules:
     linhas = file_schedules.readlines()
     print(linhas)
     for i in range(len(linhas)):
@@ -33,7 +34,7 @@ with open("./datafiles/seti.txt") as file_schedules:
         data = linhas[i][2] + "/" + linhas[i][3] + "/" + linhas[i][4] + " " + linhas[i][5] + ":" + linhas[i][6]
         tipo = linhas[i][-1]
         print(tipo)
-        if data not in schedules_dict:
+        if (data, int(tipo)) not in schedules_dict:
             schedules_dict[(data, int(tipo))] = count
             count += 1
     # print(linhas)
@@ -123,14 +124,8 @@ text_instance += str(len(dict_palestrantes)) + "\n"
 for index, palestrante in enumerate(dict_palestrantes):
 
     horarios = dict_palestrantes[palestrante][1]
-    for i in range(len(schedules_dict) - len(dict_palestrantes[palestrante][1])):
+    for i in range(10):
         r = random.randint(0,len(schedules_dict)-1)
-        if(r not in horarios):
-            horarios.append(r)
-            r = random.randint(0,len(schedules_dict)-1)        
-        if(r not in horarios):
-            horarios.append(r)
-            r = random.randint(0,len(schedules_dict)-1)
         if(r not in horarios):
             horarios.append(r)
     # print(horarios)
@@ -159,7 +154,7 @@ for index, palestra in enumerate(dict_palestras):
     text_instance += str(dict_tipos[apresentacoes[index]["Tipo"]])
     text_instance += "\n"
 
-with open("./datafiles/seti.txt", "r") as in_file:
+with open(input_schedule, "r") as in_file:
     data = in_file.read()
     n_linhas = len(data.splitlines())
     text_instance += str(n_linhas) + "\n" + data + "\n"
