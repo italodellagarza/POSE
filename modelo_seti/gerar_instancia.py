@@ -11,7 +11,7 @@ def get_tipo(name):
     return -1
         
 
-input_schedule = "./datafiles/seti_for_real.txt"
+input_schedule = "./datafiles/seti.txt"
 input_name = sys.argv[1]
 output_data = sys.argv[2]
 output_instance = sys.argv[3]

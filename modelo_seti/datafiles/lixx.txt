@@ -1,97 +1,97 @@
 38
-0 Carlos Eduardo Melo
-1 Juliana Botelho
-2 Tiago Drummond
-3 Erick Maziero
-4 Danilo Lima
-5 Luiz Candido
-6 Cleber Lopes
-7 Breno Henrique
-8 Gláucio Ferreira Loureiro
-9 Deivison Araújo
-10 Gustavo Henrique Marotta
-11 Franciele Ferreira
-12 Gustavo Lopes Dominguete
-13 Prof. Adenilson Simão
-14 Gabriela Amaral Oliveira
-15 Jimmy Andrade
-16 Francisco Correa
-17 Walter Galvão Neto
-18 Prof(a) Rani Alves
-19 Giancarlo Ciscon
-20 Luis Henrique Borges
-21 Tatiana Bastos
-22 João Adeodato Neto
-23 Maria Elizete Kunkel
-24 André Curvelo
-25 Ninguem
-26 Marcelo Manao
-27 Stéfano Girardelli
-28 Mariana de Azevedo Santos
-29 Henrique
-30 Marcelo Giratto
-31 Gustavo Montenegro
-32 William Santos
-33 Adriano Marques Figueiredo
-34 Prof. Rodrigo Mello
-35 Bruno
+0 Jimmy Andrade
+1 Bruno
+2 Maria Elizete Kunkel
+3 Gláucio Ferreira Loureiro
+4 William Santos
+5 Henrique
+6 Juliana Botelho
+7 Ninguem
+8 Cleber Lopes
+9 Giancarlo Ciscon
+10 Marcelo Manao
+11 Tatiana Bastos
+12 Danilo Lima
+13 João Adeodato Neto
+14 Erick Maziero
+15 Franciele Ferreira
+16 Prof. Adenilson Simão
+17 Prof. Rodrigo Mello
+18 Deivison Araújo
+19 Luiz Candido
+20 André Curvelo
+21 Luis Henrique Borges
+22 Gabriela Amaral Oliveira
+23 Stéfano Girardelli
+24 Marcelo Giratto
+25 Walter Galvão Neto
+26 Gustavo Henrique Marotta
+27 Prof(a) Rani Alves
+28 Adriano Marques Figueiredo
+29 Mariana de Azevedo Santos
+30 Gustavo Montenegro
+31 Tiago Drummond
+32 Pedro Eleutério
+33 Francisco Correa
+34 Carlos Eduardo Melo
+35 Breno Henrique
 36 Adriano Santos
-37 Pedro Eleutério
+37 Gustavo Lopes Dominguete
 14
-0 Saude
+0 Seguranca
 1 UX
-2 Inteligencia Artificial
-3 Tecnologia
-4 Mercado
-5 Inteligencia artifical
-6 Seguranca
-7 Banco de dados
-8 Marketing
-9 Hardware
-10 Inclusao
-11 Engenharia de Software
+2 Inteligencia artifical
+3 Saude
+4 Banco de dados
+5 Tecnologia
+6 Jogos
+7 Mercado
+8 Inteligencia Artificial
+9 Inclusao
+10 Marketing
+11 Hardware
 12 Analise de dados
-13 Jogos
+13 Engenharia de Software
 39
-0 BPM na prática
+0 Minicurso Vue.js
 1 Não construa produtos, construa experiências
-2 Como não f**** sua aplicação
-3 JUnit
-4 Workshop ITIL e Big Data
-5 DevOps
-6 Veículos Inteligentes
-7 Cordova e Ionic
-8 Boas práticas e os princípios de qualidade em código
-9 Desenvolvimento em nuvem
-10 React.js
-11 Como desenvolver características empreendedoras - SEBRAE
-12 Como é trabalhar na IBM Irlanda
-13 TI
-14 Desenvolvimento de jogos para a saúde
-15 Ecossistema de Empreendedorismo e Inovação SEBRAE
-16 Internet das coisas
-17 Tudo o que você quer saber sobre Git
-18 Modelo de negócio SEBRAE
-19 Intraweb com Bootstrap
-20 Propriedade intelectual de games
-21 Arduino e Raspberry
-22 Iniciativas sociais de base tecnológica na área da saúde
-23 Computação Forense
-24 O papel da tecnologia para as empresas do século XXI
-25 Inteligencia artifical + blockchain
-26 Programação Funcional
-27 Empreendedorismo no Mercado de Inovação
-28 Fatores de sucesso para ecossistemas de inovação e empreendedorismo
-29 Machine Learning
-30 Qualidade de software
-31 PLN
-32 Teste de mutação
-33 DX (Developer Experience)
-34 Mulheres líderes na tecnologia
-35 Teste de Software Baseado em Máquinas de Estados Finitos
-36 Minicurso Vue.js
-37 Introdução ao CTF - capture the flag
-38 Marketing para aplicativos
+2 Machine Learning
+3 Como desenvolver características empreendedoras - SEBRAE
+4 Mulheres líderes na tecnologia
+5 Fatores de sucesso para ecossistemas de inovação e empreendedorismo
+6 Computação Forense
+7 Iniciativas sociais de base tecnológica na área da saúde
+8 Workshop ITIL e Big Data
+9 O papel da tecnologia para as empresas do século XXI
+10 Intraweb com Bootstrap
+11 Tudo o que você quer saber sobre Git
+12 Inteligencia artifical + blockchain
+13 Como é trabalhar na IBM Irlanda
+14 TI
+15 BPM na prática
+16 DX (Developer Experience)
+17 Teste de mutação
+18 JUnit
+19 Desenvolvimento de jogos para a saúde
+20 Marketing para aplicativos
+21 Veículos Inteligentes
+22 React.js
+23 Introdução ao CTF - capture the flag
+24 Teste de Software Baseado em Máquinas de Estados Finitos
+25 Qualidade de software
+26 Desenvolvimento em nuvem
+27 Propriedade intelectual de games
+28 PLN
+29 DevOps
+30 Arduino e Raspberry
+31 Como não f**** sua aplicação
+32 Empreendedorismo no Mercado de Inovação
+33 Programação Funcional
+34 Boas práticas e os princípios de qualidade em código
+35 Ecossistema de Empreendedorismo e Inovação SEBRAE
+36 Modelo de negócio SEBRAE
+37 Internet das coisas
+38 Cordova e Ionic
 2
 0 Palestra
 1 Minicurso
