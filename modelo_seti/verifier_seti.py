@@ -92,31 +92,73 @@ def check_one_presentation_schedule_per_author(sessions_by_date):
     return (True, "ok")
 
 
+def check_author_disponibility(sessions, authors):
+    for session in sessions:
+        for presentation in session["presentations"]:
+            for a in presentation["authors"]:
+                if((session["id"] + 1) not in authors[a]):
+                    return (False, "author " + str(a) 
+                            + " without disponibility for session " 
+                            + str(session["id"]) + " (" + str(authors[a]) + ")")
+
+    return (True, "ok")
+
+def check_local_disponibility(sessions):
+    for session in sessions:
+        for presentation in session["presentations"]:
+            if presentation["type"] not in session["types"]:
+                return (False, "Presentation with type " 
+                        + str(presentation["type"]) 
+                        + " not supported by session " + str(session["id"]) 
+                        + " (" + str(session["types"]) + ")")
+
+    return (True, "ok")
+
 def read_results(file_name):
     with open(file_name, "r") as file:
         lines = file.read().splitlines()
+        schedule_capacity = int(lines[0].strip().split(":")[1])
+        date_capacity = int(lines[1].strip().split(":")[1])
+        time = float(lines[2].strip().split(":")[1])
+        objective_value = float(lines[-1].strip().split(":")[1])
+        lines = lines[3:-1]
+
+
         presentations_sessions = []
         for line in lines:
             line = line.strip().split(" ")
             new_line = []
             for v in line:
-                print(v)
                 new_line.append(int(float(v)))
 
             presentations_sessions.append(new_line)
 
-    pprint.pprint(presentations_sessions)
-    return presentations_sessions
+    # pprint.pprint(presentations_sessions)
+    return (presentations_sessions, time, objective_value, schedule_capacity, date_capacity)
 
 def read_input(file_name, presentations_sessions):
     with open(file_name, "r") as file:
         lines = file.read().splitlines()
         n_themes = int(lines[0])
         n_authors = int(lines[1])
-        n_presentations = int(lines[2])
+
+        start = 2
+        end = n_authors + 2
+        authors = {}
+        for i in range(start, end):
+            line = lines[i].strip().split(" ")
+            authors[i-2] = [int(x) for x in line[1:]]
+
+
+        start = end
+        n_presentations = int(lines[start])
+
+        start = start + 1
+
+        end = start + n_presentations
 
         presentations = []
-        for i in range(3, n_presentations+3):
+        for i in range(start, end):
             presentation = {'authors': [], 'themes': []}
 
             line = lines[i].strip().split(" ")
@@ -127,26 +169,34 @@ def read_input(file_name, presentations_sessions):
             # pega os temas
             for j in range(1, nt+1):
                 presentation['themes'].append(int(line[j]))
-
-            # numero de autores daquela apresentacao
-            # na = int(line[nt+1])
-            for j in range(nt+2, len(line)):
-                presentation['authors'].append(int(line[j]))
             
+            
+            # numero de autores daquela apresentacao
+            na = int(line[nt+1])
+            # print(na)
+
+            for j in range(nt+2, nt+na+2):
+                presentation['authors'].append(int(line[j]))
+            p_type = int(line[nt+na+2])
+            
+            presentation["type"] = p_type
             presentations.append(presentation)
-
-        n_sessions = int(lines[n_presentations+3])
-        print("aquiuii", n_sessions)
-
-        start = n_presentations + 4
+        
+        start = end
+        n_sessions = int(lines[start])
+        start += 1
         end = start + n_sessions
+        
+
+        # start = n_presentations + 4
+        # end = start + n_sessions
+        
 
         sessions = []
         sessions_by_date = {}
         for i in range(start, end):
             session = {}
             line = lines[i].strip().split(" ")
-            print("line", line)
 
             session["id"] = i-start
             session["capacity"] = int(line[0])
@@ -155,10 +205,20 @@ def read_input(file_name, presentations_sessions):
             session["date"] = date
             schedule = date + " " + line[5] + ":" + line[6]
             session["schedule"] = schedule
+            
+            session["types"] = []
+            n_types = int(line[7])
+            t_start = 8
+            t_end = t_start + n_types
+            
+            for j in range(t_start, t_end):
+                session["types"].append(int(line[j]))
+            
             session["presentations"] = []
-            for i in range(n_presentations):
-                if(presentations_sessions[i][session["id"]] == 1):
-                    session["presentations"].append(presentations[i])
+            for j in range(n_presentations):
+                if(presentations_sessions[j][session["id"]] == 1):
+                    session["presentations"].append(presentations[j])
+
 
             sessions.append(session)
 
@@ -173,18 +233,17 @@ def read_input(file_name, presentations_sessions):
                 sessions_by_date[date][schedule] = []
                 sessions_by_date[date][schedule].append(session)
 
-            
+        # pprint.pprint(sessions_by_date)
+        # pprint.pprint(presentations)
 
-        pprint.pprint(sessions_by_date)
-        pprint.pprint(presentations)
-
-    return (n_presentations, n_themes, n_authors, n_sessions, presentations, sessions, sessions_by_date) 
+    return (n_presentations, n_themes, n_authors, n_sessions, presentations, sessions, sessions_by_date, authors) 
 
 
 
-if(len(sys.argv) < 5):
+if(len(sys.argv) < 3):
     print("Exemplo de execucao:")
-    print("python3 results/verifier.py <arquivo de resultados> <arquivo de entrada> <capacidade de horario> <capacidade por dia>")
+    # print("python3 results/verifier.py <arquivo de resultados> <arquivo de entrada> <capacidade de horario> <capacidade por dia>")
+    print("python3 results/verifier.py <arquivo de resultados> <arquivo de entrada>")
     exit(0)
 
 # arquivo de resultados
@@ -196,15 +255,15 @@ in_file_name = sys.argv[2]
 print(in_file_name)
 
 # maxima capacidade de temas por horario
-schedule_capacity = int(sys.argv[3])
-print(schedule_capacity)
+schedule_capacity = -1
+# print(schedule_capacity)
 
 # maxima capacidade de temas por dia
-date_capacity = int(sys.argv[4])
-print(date_capacity)
+date_capacity = -1
+# print(date_capacity)
 
-presentations_sessions = read_results(res_file_name)
-n_presentations, n_themes, n_authors, n_sessions, presentations, sessions, sessions_by_date = read_input(in_file_name, presentations_sessions)
+presentations_sessions, time, object_value, schedule_capacity, date_capacity = read_results(res_file_name)
+n_presentations, n_themes, n_authors, n_sessions, presentations, sessions, sessions_by_date, authors = read_input(in_file_name, presentations_sessions)
 
 
 print(check_constraint_only_one(presentations_sessions, presentations))
@@ -212,3 +271,5 @@ print(check_max_themes_in_schedule(n_themes, sessions_by_date, schedule_capacity
 print(check_max_themes_in_date(n_themes, sessions_by_date, date_capacity))
 print(check_max_presentations_in_session(sessions))
 print(check_one_presentation_schedule_per_author(sessions_by_date))
+print(check_author_disponibility(sessions, authors))
+print(check_local_disponibility(sessions))
