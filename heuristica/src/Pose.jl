@@ -19,8 +19,9 @@ module Pose
 
         # nThemes, nAuthors, nPresentations, nSessions, presentations, sessions = reader("./datafiles/problema1.txt")
         nThemes, nAuthors, nPresentations, nSessions, presentations, sessions = reader(ARGS[1])
-        schedule_capacity = parse(Int, ARGS[2])
-        date_capacity = parse(Int, ARGS[3])
+        output_file_name = ARGS[2]
+        schedule_capacity = parse(Int, ARGS[3])
+        date_capacity = parse(Int, ARGS[4])
 
         # println("Numero de temas = ", nThemes)
         # println("Numero de autores = ", nAuthors)
@@ -48,16 +49,25 @@ module Pose
 
         # Numero de iterações da heuristica
         n_iteration = 100
-        function_value, output, time_heuristic, percentage_of_errors = heuristic(nThemes, nAuthors, nPresentations, nSessions,
-                                                                                presentations, sessions, schedule_capacity, 
-                                                                                date_capacity, n_iteration)
+        results = heuristic(nThemes, nAuthors, nPresentations, nSessions,
+                            presentations, sessions, schedule_capacity, 
+                            date_capacity, n_iteration)
+
+        function_value, output, time_heuristic, percentage_of_errors, sessions_struct = results
      
-        open("./results/temp.txt", "w") do f 
+        open(output_file_name, "w") do f 
             write(f, output)
         end
             
         println("Taxa de erro: ", percentage_of_errors)
         println("Time: ", time_heuristic)
         println("Best funtion value: ", function_value)
+        println()
+        # for session in sessions_struct
+        #     println("Sessão: ", session.id)
+        #     println("horario: ", session.schedule)
+        #     println("presentation: ", session.presentations)
+        #     println()
+        # end
     end
 end

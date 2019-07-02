@@ -277,8 +277,8 @@ function local_search(n_themes, n_authors, n_presentations, n_sessions, presenta
 
                 switched = false
 
-                if (is_possible_select(presentation, presentations_struct, sessions_struct[id_session], sessions_struct, schedule_capacity, date_capacity))
-                    if (is_possible_select(presentation_, presentations_struct, sessions_struct[id_session_], sessions_struct, schedule_capacity, date_capacity))
+                if (is_possible_select(presentation, presentations_struct, session_, sessions_struct, schedule_capacity, date_capacity))
+                    if (is_possible_select(presentation_, presentations_struct, session, sessions_struct, schedule_capacity, date_capacity))
                         
                         value_after = calc_value_session(presentation.id, session_, presentations_similarity) + calc_value_session(presentation_.id, session, presentations_similarity)
 
@@ -291,8 +291,8 @@ function local_search(n_themes, n_authors, n_presentations, n_sessions, presenta
                             append!(session_.presentations, new_presentation.id)
                             
                             new_presentation = Presentation(presentation_.id, presentation_.nThemes,
-                            presentation_.nAuthors, presentation_.themes,
-                            presentation_.authors, session.id)
+                                                            presentation_.nAuthors, presentation_.themes,
+                                                            presentation_.authors, session.id)
                             
                             presentations_struct[presentation_.id] = new_presentation
                             append!(session.presentations, new_presentation.id)
@@ -330,7 +330,7 @@ function heuristic(n_themes, n_authors, n_presentations, n_sessions, presentatio
     percentage_of_errors = 0
     best_function_value = -1
     best_session_struct = []
-
+    r = []
     # calcula o tempo gasto pela heurística
     time_heuristic = @elapsed begin
 
@@ -348,13 +348,14 @@ function heuristic(n_themes, n_authors, n_presentations, n_sessions, presentatio
     
             #se for factível, executa busca local x vezes
             if (feasible)
-                for i in collect(1:50)
+                local_iterations = 30
+                for i in collect(1:local_iterations)
                     result, results_struct = local_search(n_themes, n_authors, n_presentations, n_sessions, par_presentations_struct, 
                                     results_struct, presentations_similarity, schedule_capacity, date_capacity, function_value)
 
                     # se não houve melhoria, para o iterador
                     if (result == false )
-                        i = 50
+                        i = local_iterations
                     end
                 end
 
@@ -384,6 +385,7 @@ function heuristic(n_themes, n_authors, n_presentations, n_sessions, presentatio
                 best_session_struct = deepcopy(results_struct)
                 best_function_value = function_value
             end
+            r = results_struct
         end
         percentage_of_errors = (percentage_of_errors / number_of_times) * 100
     end
@@ -430,5 +432,5 @@ function heuristic(n_themes, n_authors, n_presentations, n_sessions, presentatio
     
     output = string(output, "objective_function_value : ", best_function_value, "\n")
 
-    return  best_function_value, output, time_heuristic, percentage_of_errors 
+    return  best_function_value, output, time_heuristic, percentage_of_errors, r
 end

@@ -35,7 +35,7 @@ def check_max_themes_in_schedule(n_themes, sessions_by_date, limit_schedule):
                         if(i in presentation["themes"]):
                             count += 1
 
-                text += "tema " + str(i) + ": " + str(count) + " repeticoes"
+                text += "\t tema " + str(i) + ": " + str(count) + " repeticoes \n"
 
                 if(count > limit_schedule):
                     return (False, text)

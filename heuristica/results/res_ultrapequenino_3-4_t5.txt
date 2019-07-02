@@ -1,0 +1,10 @@
+schedule_capacity : 3
+date_capacity : 4
+time : 0.371997864
+1.0 0.0 0.0 
+0.0 0.0 1.0 
+0.0 1.0 0.0 
+0.0 0.0 1.0 
+0.0 1.0 0.0 
+0.0 1.0 0.0 
+objective_function_value : 2.6333333333333333
