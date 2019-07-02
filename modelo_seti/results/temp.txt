@@ -1,2 +1,4 @@
+time : 9.14122969
 0.0 1.0 
 1.0 0.0 
+objective_function_value : 0.0

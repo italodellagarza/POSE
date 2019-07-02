@@ -13,7 +13,27 @@ function reader(nameFile::String)
     open(nameFile) do file
         nThemes = parse(Int, readline(file))
         nAuthors = parse(Int, readline(file))
-        nTypes = parse(Int, readline(file))
+
+        authors_struct = Array{Author}(undef, nAuthors)
+
+        for count = 1:nAuthors
+            line = split(readline(file))
+            mapped = map(x->parse(Int, x), line)
+            nAvailable = mapped[1]
+            availableSessions = Array{Int}(undef, nAvailable)
+            
+            
+            for session = 1:nAvailable
+                availableSessions[session] = mapped[session + 1]
+            end
+            
+
+            author = Author(count, nAvailable, availableSessions)
+            authors_struct[count] = author
+        end
+
+
+
         nPresentations = parse(Int, readline(file))
 
         presentations = Array{Presentation}(undef, nPresentations)

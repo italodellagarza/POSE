@@ -8,6 +8,7 @@ module Pose
     include("reader.jl")
     include("Session.jl")
     include("Presentation.jl")
+    include("Author.jl")
     include("Model.jl")
 
     function __init__()
