@@ -13,7 +13,27 @@ function reader(nameFile::String)
     open(nameFile) do file
         nThemes = parse(Int, readline(file))
         nAuthors = parse(Int, readline(file))
-        nTypes = parse(Int, readline(file))
+
+        authors_struct = Array{Author}(undef, nAuthors)
+
+        for count = 1:nAuthors
+            line = split(readline(file))
+            mapped = map(x->parse(Int, x), line)
+            nAvailable = mapped[1]
+            availableSessions = Array{Int}(undef, nAvailable)
+            
+            
+            for session = 1:nAvailable
+                availableSessions[session] = mapped[session + 1]
+            end
+            
+
+            author = Author(count, nAvailable, availableSessions)
+            authors_struct[count] = author
+        end
+
+
+
         nPresentations = parse(Int, readline(file))
 
         presentations = Array{Presentation}(undef, nPresentations)
@@ -29,14 +49,14 @@ function reader(nameFile::String)
                 presentationThemes[theme] = mapped[theme + 1]
             end
             
-            
             nPresentationAuthors = mapped[nPresentationThemes + 2]
             presentationAuthors = Array{Int}(undef, nPresentationAuthors)
             
             for author = 1:nPresentationAuthors
                 presentationAuthors[author] = mapped[author + nPresentationThemes + 2]
             end
-
+            
+            
             for i in collect(1:nPresentationThemes)
                 presentationThemes[i] = presentationThemes[i] + 1
             end
@@ -45,7 +65,7 @@ function reader(nameFile::String)
                 presentationAuthors[i] = presentationAuthors[i] + 1
             end
             
-            type = mapped[nPresentationAuthors + nPresentationThemes + 2]
+            type = mapped[nPresentationAuthors + nPresentationThemes + 3]
 
 
             presentation = Presentation(count, nPresentationThemes, nPresentationAuthors, presentationThemes, presentationAuthors, type)
@@ -72,7 +92,7 @@ function reader(nameFile::String)
             sessions[count] = session
         end
         
-        return nThemes, nAuthors, nPresentations, nSessions, presentations, sessions
+        return nThemes, nAuthors, nPresentations, nSessions, presentations, sessions, authors_struct
         
     end
 

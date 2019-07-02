@@ -32,7 +32,7 @@ function calculate_similarity(n_presentations, presentations, presentations_stru
 end
 
 
-function createModel(n_themes, n_authors, n_presentations, n_sessions, presentations_struct, sessions_struct, sc, dc)
+function createModel(n_themes, n_authors, n_presentations, n_sessions, presentations_struct, sessions_struct, authors_struct, sc, dc)
     # model = Model(with_optimizer(Gurobi.Optimizer))
     
     #### DADOS ####
@@ -281,6 +281,13 @@ function createModel(n_themes, n_authors, n_presentations, n_sessions, presentat
             session = sessions_struct[s]
             if !(presentation.type in session.types)
                 @constraint(model, presentations_session[p, s] == 0)
+            else
+                for a in presentation.authors
+                    author = authors_struct[a]
+                    if !(s in author.sessions)
+                        @constraint(model, presentations_session[p, s] == 0)                    
+                    end
+                end
             end
         end
     end
@@ -305,8 +312,7 @@ function createModel(n_themes, n_authors, n_presentations, n_sessions, presentat
     end
 
 
-
-    println(model)
+    # println(model)
     # println("presentations_themes")
     # for i in presentations
     #     print(i, " ")
@@ -334,16 +340,18 @@ function createModel(n_themes, n_authors, n_presentations, n_sessions, presentat
     #     end
     #     println()
     # end
-
     println("----------------------------------------------------------")
     t = @elapsed begin
         optimize!(model)
     end
     println(t)
 
+
     open("./results/temp.txt", "w") do f
         text = ""
-        text = string("time : ", t, "\n")
+        text = string(text, "schedule_capacity : ", schedules_capacity, "\n")
+        text = string(text, "date_capacity : ", dates_capacity, "\n")
+        text = string(text, "time : ", t, "\n")
         for i in presentations
             for s in sessions
                 if (JuMP.value(presentations_session[i,s]) == 0)

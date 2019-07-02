@@ -1,0 +1,97 @@
+38
+0 Prof. Rodrigo Mello
+1 Gabriela Amaral Oliveira
+2 Giancarlo Ciscon
+3 Maria Elizete Kunkel
+4 Walter Galvão Neto
+5 Luiz Candido
+6 Francisco Correa
+7 João Adeodato Neto
+8 Cleber Lopes
+9 Ninguem
+10 Franciele Ferreira
+11 William Santos
+12 Gustavo Lopes Dominguete
+13 Tatiana Bastos
+14 Mariana de Azevedo Santos
+15 Adriano Marques Figueiredo
+16 Gustavo Montenegro
+17 Breno Henrique
+18 Carlos Eduardo Melo
+19 Danilo Lima
+20 Marcelo Manao
+21 Luis Henrique Borges
+22 Marcelo Giratto
+23 Gláucio Ferreira Loureiro
+24 André Curvelo
+25 Juliana Botelho
+26 Erick Maziero
+27 Henrique
+28 Jimmy Andrade
+29 Stéfano Girardelli
+30 Bruno
+31 Deivison Araújo
+32 Prof. Adenilson Simão
+33 Gustavo Henrique Marotta
+34 Tiago Drummond
+35 Pedro Eleutério
+36 Prof(a) Rani Alves
+37 Adriano Santos
+14
+0 Jogos
+1 Inteligencia artifical
+2 Tecnologia
+3 Saude
+4 Seguranca
+5 Marketing
+6 UX
+7 Mercado
+8 Hardware
+9 Banco de dados
+10 Analise de dados
+11 Inteligencia Artificial
+12 Inclusao
+13 Engenharia de Software
+39
+0 Como é trabalhar na IBM Irlanda
+1 Qualidade de software
+2 Intraweb com Bootstrap
+3 Computação Forense
+4 Empreendedorismo no Mercado de Inovação
+5 Inteligencia artifical + blockchain
+6 Propriedade intelectual de games
+7 Não construa produtos, construa experiências
+8 Internet das coisas
+9 Cordova e Ionic
+10 Teste de Software Baseado em Máquinas de Estados Finitos
+11 Workshop ITIL e Big Data
+12 DevOps
+13 Modelo de negócio SEBRAE
+14 Veículos Inteligentes
+15 Iniciativas sociais de base tecnológica na área da saúde
+16 TI
+17 Boas práticas e os princípios de qualidade em código
+18 Introdução ao CTF - capture the flag
+19 Programação Funcional
+20 Marketing para aplicativos
+21 Fatores de sucesso para ecossistemas de inovação e empreendedorismo
+22 Desenvolvimento de jogos para a saúde
+23 BPM na prática
+24 Machine Learning
+25 Ecossistema de Empreendedorismo e Inovação SEBRAE
+26 PLN
+27 Minicurso Vue.js
+28 Mulheres líderes na tecnologia
+29 DX (Developer Experience)
+30 Desenvolvimento em nuvem
+31 Como desenvolver características empreendedoras - SEBRAE
+32 Teste de mutação
+33 Arduino e Raspberry
+34 Como não f**** sua aplicação
+35 O papel da tecnologia para as empresas do século XXI
+36 JUnit
+37 Tudo o que você quer saber sobre Git
+38 React.js
+2
+0 Palestra
+1 Minicurso

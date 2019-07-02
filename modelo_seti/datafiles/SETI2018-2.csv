@@ -1,0 +1,40 @@
+Dia,Hora,Local,Titulo,Tipo,Palestrante,Temas
+24/09/2018,12:00,Anfiteatro,Teste de Software Baseado em Máquinas de Estados Finitos,Palestra,Prof. Adenilson Simão,Engenharia de Software-Tecnologia
+24/09/2018,12:00,LAB 4,Tudo o que você quer saber sobre Git,Minicurso,William Santos,Tecnologia
+24/09/2018,12:00,Anfiteatro,Desenvolvimento de jogos para a saúde,Palestra,Prof(a) Rani Alves,Jogos-Saude
+24/09/2018,12:00,Anfiteatro,"Não construa produtos, construa experiências",Palestra,Stéfano Girardelli,UX-Mercado
+24/09/2018,18:00,LAB 4,Minicurso Vue.js,Minicurso,Gustavo Lopes Dominguete,Tecnologia
+24/09/2018,18:00,Anfiteatro,Como é trabalhar na IBM Irlanda,Palestra,Luis Henrique Borges,Mercado
+24/09/2018,18:00,Anfiteatro,DX (Developer Experience),Palestra,Jimmy Andrade,UX-Mercado
+25/09/2018,09:00,Anfiteatro,Programação Funcional,Palestra,Cleber Lopes,Tecnologia
+25/09/2018,09:00,LAB 4,Workshop ITIL e Big Data,Minicurso,Marcelo Manao-Luiz Candido,Banco de dados-Analise de dados
+25/09/2018,09:00,Anfiteatro,Qualidade de software,Palestra,Giancarlo Ciscon,Engenharia de Software
+25/09/2018,12:00,Anfiteatro,DevOps,Palestra,Carlos Eduardo Melo,Engenharia de Software
+25/09/2018,12:00,LAB 4,Cordova e Ionic,Minicurso,Cleber Lopes,Tecnologia
+25/09/2018,12:00,Anfiteatro,PLN,Palestra,Erick Maziero,Inteligencia artifical
+25/09/2018,12:00,Anfiteatro,TI,Palestra,Adriano Marques Figueiredo,Tecnologia
+25/09/2018,12:00,LAB 4,Como desenvolver características empreendedoras - SEBRAE,Minicurso,Francisco Correa,Mercado
+25/09/2018,18:00,Anfiteatro,Ecossistema de Empreendedorismo e Inovação SEBRAE,Palestra,Tatiana Bastos,Engenharia de Software-Mercado
+25/09/2018,18:00,Anfiteatro,O papel da tecnologia para as empresas do século XXI,Palestra,João Adeodato Neto,Tecnologia-Mercado
+26/09/2018,09:00,Anfiteatro,BPM na prática,Palestra,Deivison Araújo,Tecnologia
+26/09/2018,12:00,LAB 4,React.js,Minicurso,Breno Henrique,Tecnologia
+26/09/2018,12:00,Anfiteatro,Iniciativas sociais de base tecnológica na área da saúde,Palestra,Maria Elizete Kunkel,Tecnologia-Saude
+26/09/2018,12:00,Anfiteatro,Veículos Inteligentes,Palestra,Danilo Lima,Tecnologia-Inteligencia Artificial
+26/09/2018,12:00,LAB 4,Modelo de negócio SEBRAE,Minicurso,Francisco Correa,Engenharia de Software
+26/09/2018,18:00,Anfiteatro,Boas práticas e os princípios de qualidade em código,Palestra,Mariana de Azevedo Santos,Engenharia de Software
+26/09/2018,18:00,Anfiteatro,Internet das coisas,Palestra,André Curvelo,Inteligencia Artificial
+27/09/2018,09:00,Anfiteatro,Machine Learning,Palestra,Prof. Rodrigo Mello,Inteligencia Artificial
+27/09/2018,09:00,LAB 4,Intraweb com Bootstrap,Minicurso,Marcelo Giratto,Tecnologia
+27/09/2018,09:00,Anfiteatro,Computação Forense,Palestra,Pedro Eleutério,Seguranca
+27/09/2018,12:00,Anfiteatro,Propriedade intelectual de games,Palestra,Henrique-Bruno,Jogos-Mercado
+27/09/2018,12:00,LAB 4,Teste de mutação,Minicurso,Juliana Botelho,Tecnologia
+27/09/2018,12:00,Anfiteatro,Como não f**** sua aplicação,Palestra,Tiago Drummond,Engenharia de Software
+27/09/2018,12:00,Anfiteatro,Marketing para aplicativos,Palestra,Adriano Santos,Marketing
+27/09/2018,18:00,LAB 4,JUnit,Minicurso,Franciele Ferreira,Tecnologia
+27/09/2018,18:00,Anfiteatro,Arduino e Raspberry,Palestra,Gláucio Ferreira Loureiro,Hardware
+27/09/2018,18:00,Anfiteatro,Empreendedorismo no Mercado de Inovação,Palestra,Walter Galvão Neto,Mercado
+28/09/2018,09:00,Anfiteatro,Desenvolvimento em nuvem,Palestra,Gustavo Henrique Marotta,Tecnologia
+28/09/2018,09:00,LAB 4,Introdução ao CTF - capture the flag,Palestra,Tiago Drummond,Seguranca
+28/09/2018,12:00,Anfiteatro,Inteligencia artifical + blockchain,Palestra,Gustavo Montenegro,Inteligencia Artificial
+28/09/2018,12:00,Anfiteatro,Mulheres líderes na tecnologia,Palestra,Gabriela Amaral Oliveira,Inclusao
+28/09/2018,12:00,Anfiteatro,Fatores de sucesso para ecossistemas de inovação e empreendedorismo,Palestra,Ninguem,Mercado
