@@ -190,10 +190,10 @@ def read_input(file_name, presentations_sessions):
 
 
 
-if(len(sys.argv) < 3):
+if(len(sys.argv) < 4):
     print("Exemplo de execucao:")
     # print("python3 results/verifier.py <arquivo de resultados> <arquivo de entrada> <capacidade de horario> <capacidade por dia>")
-    print("python3 results/verifier.py <arquivo de resultados> <arquivo de entrada>")
+    print("python3 verifier.py <arquivo de resultados> <arquivo de entrada> <arquivo de saida (tabela)>")
     exit(0)
 
 # arquivo de resultados
@@ -203,6 +203,9 @@ res_file_name = sys.argv[1]
 # arquivo de entrada
 in_file_name = sys.argv[2]
 # print(in_file_name)
+
+#arquivo de saida
+out_file_name = sys.argv[3]
 
 # maxima capacidade de temas por horario
 schedule_capacity = -1
@@ -250,6 +253,8 @@ if(all(checks)):
         table.add_row([index, text_works, text_date, text_schedule])
     
     print(table)
+    with open(out_file_name, "w") as f:
+        f.write(str(table))
 
 else:
     print("INFACTIVEL")

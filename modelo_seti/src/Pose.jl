@@ -14,7 +14,7 @@ module Pose
     function __init__()
 
         if size(ARGS)[1] < 4
-            println("É necessário passar um arquivo de entrada, além dos limites de temas por horario e dia")
+            println("Comando incorreto!")
             println("Exemplo de entrada: ")
             println("julia src/Pose.jl <arquivo de teste> <arquivo saida> <capacidade de horario> <capacidade por dia>")
 
