@@ -1,5 +1,6 @@
-import pprint
 import sys
+import pprint
+import prettytable
 
 # checa se a apresentacao esta em exatamente uma sessao
 def check_constraint_only_one(presentations_sessions, presentations):
@@ -240,19 +241,22 @@ def read_input(file_name, presentations_sessions):
 
 
 
-if(len(sys.argv) < 3):
+if(len(sys.argv) < 4):
     print("Exemplo de execucao:")
     # print("python3 results/verifier.py <arquivo de resultados> <arquivo de entrada> <capacidade de horario> <capacidade por dia>")
-    print("python3 results/verifier.py <arquivo de resultados> <arquivo de entrada>")
+    print("python3 verifier_seti.py <arquivo de resultados> <arquivo de entrada> <arquivo de saida (tabela)>")
     exit(0)
 
 # arquivo de resultados
 res_file_name = sys.argv[1]
-print(res_file_name)
+# print(res_file_name)
 
 # arquivo de entrada
 in_file_name = sys.argv[2]
-print(in_file_name)
+# print(in_file_name)
+
+#arquivo de saida
+out_file_name = sys.argv[3]
 
 # maxima capacidade de temas por horario
 schedule_capacity = -1
@@ -265,11 +269,46 @@ date_capacity = -1
 presentations_sessions, time, object_value, schedule_capacity, date_capacity = read_results(res_file_name)
 n_presentations, n_themes, n_authors, n_sessions, presentations, sessions, sessions_by_date, authors = read_input(in_file_name, presentations_sessions)
 
+checks_and_messages = []
+checks_and_messages.append(check_constraint_only_one(presentations_sessions, presentations))
+checks_and_messages.append(check_max_themes_in_schedule(n_themes, sessions_by_date, schedule_capacity))
+checks_and_messages.append(check_max_themes_in_date(n_themes, sessions_by_date, date_capacity))
+checks_and_messages.append(check_max_presentations_in_session(sessions))
+checks_and_messages.append(check_one_presentation_schedule_per_author(sessions_by_date))
+checks_and_messages.append(check_author_disponibility(sessions, authors))
+checks_and_messages.append(check_local_disponibility(sessions))
 
-print(check_constraint_only_one(presentations_sessions, presentations))
-print(check_max_themes_in_schedule(n_themes, sessions_by_date, schedule_capacity))
-print(check_max_themes_in_date(n_themes, sessions_by_date, date_capacity))
-print(check_max_presentations_in_session(sessions))
-print(check_one_presentation_schedule_per_author(sessions_by_date))
-print(check_author_disponibility(sessions, authors))
-print(check_local_disponibility(sessions))
+# separa as tuplas e cria duas listas: mensagens e uma lista booleana indicando se o teste passou
+checks, messages = (list(t) for t in zip(*checks_and_messages))
+
+
+if(all(checks)):
+    out_sessions = []
+    
+    for j in range(len(presentations_sessions[0])):
+        out_sessions.append(([], sessions[j]["date"], sessions[j]["schedule"]))
+        for i in range(len(presentations_sessions)):
+            if(presentations_sessions[i][j] == 1):
+                out_sessions[j][0].append(i)
+
+
+
+    table = prettytable.PrettyTable()
+    table.field_names = ["Sessão", "Trabalhos", "Dia", "Horario"]
+
+    for i in range(len(out_sessions)):
+        index = i + 1
+        works, date, schedule = out_sessions[i]
+        text_works = str(works)[1:-1]
+        text_date = "/".join(date.strip().split("-"))
+        text_schedule = schedule.strip().split(" ")[1]
+        table.add_row([index, text_works, text_date, text_schedule])
+    
+    print(table)
+    with open(out_file_name, "w") as f:
+        f.write(str(table))
+
+else:
+    print("INFACTIVEL")
+    for message in messages:
+        print(message)
