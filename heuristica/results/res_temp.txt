@@ -1,6 +1,6 @@
-schedule_capacity : 6
-date_capacity : 9
-time : 0.303707972
+schedule_capacity : 3
+date_capacity : 5
+time : 0.298718797
 0.0 0.0 1.0 
 1.0 0.0 0.0 
 0.0 1.0 0.0 

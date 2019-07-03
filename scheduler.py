@@ -1,6 +1,5 @@
-
+import sys
 import os
-julia_location = "~/julia-1.1.0/bin/julia"
 
 def show_interface():
     print("Qual metodo voce deseja utilizar?")
@@ -92,6 +91,11 @@ def run_option(x):
     return
 
 if __name__ == "__main__":
+    if(len(sys.argv) < 2):
+        print("Exemplo de execucao:")
+        print("python3 scheduler.py <local do julia>")
+
+    julia_location = sys.argv[1]
     x = read_option()
     while(x > 0):
         run_option(x)
@@ -100,3 +104,5 @@ if __name__ == "__main__":
 # ./modelo/datafiles/ultrapequenino.txt
 # ./heuristica/datafiles/ultrapequenino.txt
 # ./modelo_seti/datafiles/doubleultrapequenino.txt
+
+# ~/julia-1.1.0/bin/julia
